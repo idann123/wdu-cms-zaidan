@@ -20,19 +20,19 @@ const pageVariants = {
     filter: 'blur(0px)',
     transition: {
       duration: 0.8,
-      ease: [0.25, 0.46, 0.45, 0.94],
+      ease: [0.25, 0.46, 0.45, 0.94] as const,
       staggerChildren: 0.1,
       delayChildren: 0.15,
     },
   },
-  exit: {
+    exit: {
     opacity: 0,
     y: -30,
     scale: 1.02,
     filter: 'blur(8px)',
     transition: {
       duration: 0.5,
-      ease: [0.25, 0.46, 0.45, 0.94],
+      ease: [0.25, 0.46, 0.45, 0.94] as const,
     },
   },
 };
@@ -62,7 +62,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
             initial={{ scaleX: 0, opacity: 1 }}
             animate={{ scaleX: 1, opacity: 1 }}
             exit={{ scaleX: 1, opacity: 0 }}
-            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const }}
             className="fixed top-0 left-0 right-0 h-1 z-[100] origin-left"
           >
             <div className="h-full bg-gradient-to-r from-primary via-green-400 to-primary relative overflow-hidden">
@@ -95,7 +95,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
       <motion.div
         initial={{ opacity: 0, scaleX: 0 }}
         animate={{ opacity: 1, scaleX: 1 }}
-        transition={{ delay: 0.5, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+        transition={{ delay: 0.5, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const }}
         className="fixed bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent pointer-events-none z-50"
       />
 
@@ -103,7 +103,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
       <motion.div
         initial={{ opacity: 0, x: 100, y: -100 }}
         animate={{ opacity: 1, x: 0, y: 0 }}
-        transition={{ delay: 0.6, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+        transition={{ delay: 0.6, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const }}
         className="fixed top-0 right-0 w-32 h-32 pointer-events-none z-40"
       >
         <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-primary/10 to-transparent" />

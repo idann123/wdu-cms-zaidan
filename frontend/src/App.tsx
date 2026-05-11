@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { AnimatePresence, motion, Variants } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import PublicLayout from "./components/PublicLayout";
 import PageGuard from "./components/PageGuard";
 import HomePage from "./pages/HomePage";

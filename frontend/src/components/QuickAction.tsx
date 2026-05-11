@@ -47,18 +47,18 @@ export default function QuickAction({ onNewProject, onNewService, onUploadMedia 
                 key={item.label}
                 initial={{ opacity: 0, scale: 0.8, x: 20 }}
                 animate={{ opacity: 1, scale: 1, x: 0 }}
-                transition={{ 
-                  duration: 0.3, 
+                transition={{
+                  duration: 0.3,
                   delay: index * 0.05,
                   ease: [0.22, 1, 0.36, 1]
                 }}
                 onClick={() => handleAction(item.action)}
-                className="group flex items-center gap-3 bg-surface-container-low backdrop-blur-xl rounded-full pl-4 pr-5 py-3 shadow-xl border border-outline-variant/20 hover:bg-surface-container transition-all"
+                className="group flex items-center gap-3 bg-primary/10 backdrop-blur-xl rounded-full pl-4 pr-5 py-3 shadow-xl border border-primary/20 hover:bg-primary/20 transition-all"
               >
                 <span className="material-symbols-outlined text-xl text-primary">
                   {item.icon}
                 </span>
-                <span className="text-sm font-semibold text-on-surface whitespace-nowrap">
+                <span className="text-sm font-semibold text-black whitespace-nowrap">
                   {item.label}
                 </span>
               </motion.button>
@@ -68,10 +68,10 @@ export default function QuickAction({ onNewProject, onNewService, onUploadMedia 
       </AnimatePresence>
 
       <motion.button
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.1, boxShadow: '0 20px 25px -5px rgba(106, 177, 73, 0.4)' }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="relative w-14 h-14 bg-[#6ab149] rounded-full shadow-lg shadow-[#6ab149]/30 flex items-center justify-center overflow-hidden"
+        className="relative w-16 h-16 bg-primary rounded-full shadow-lg shadow-primary/30 flex items-center justify-center overflow-hidden border-2 border-white"
         aria-label="Quick actions"
       >
         <motion.div

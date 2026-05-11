@@ -22,7 +22,7 @@ const itemVariants: Variants = {
 };
 
 export default function AdminSecurity() {
-  const { user } = useAuthStore();
+  useAuthStore();
   const [toast, setToast] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
   const [sessions, setSessions] = useState<any[]>([]);
   const [loginHistory, setLoginHistory] = useState<ActivityLog[]>([]);
@@ -284,7 +284,7 @@ export default function AdminSecurity() {
             </div>
 
             <div className="relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-outline-variant/20 before:to-transparent">
-              {auditLogs.length > 0 ? auditLogs.map((log, index) => (
+              {auditLogs.length > 0 ? auditLogs.map((log, _index) => (
                 <div key={log.id} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active mb-6 last:mb-0">
                   {/* Icon */}
                   <div className={`flex items-center justify-center w-10 h-10 rounded-full border-4 border-surface-container-lowest shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-sm ${

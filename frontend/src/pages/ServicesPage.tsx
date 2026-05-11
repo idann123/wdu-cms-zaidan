@@ -95,7 +95,7 @@ export default function ServicesPage() {
       y: 0,
       scale: 1,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 100,
         damping: 15,
       },
@@ -204,7 +204,7 @@ export default function ServicesPage() {
               <p className="text-on-surface-variant mt-4">Layanan tidak tersedia</p>
             </div>
           ) : (
-            services.map((service, index) => (
+            services.map((service) => (
               <motion.div
                 key={service.id}
                 variants={itemVariants}

@@ -1,8 +1,7 @@
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function ContactPage() {
-  const containerRef = useRef(null);
   const heroRef = useRef(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [heroData, setHeroData] = useState({
@@ -77,7 +76,7 @@ export default function ContactPage() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const }
     }
   };
 
@@ -101,7 +100,7 @@ export default function ContactPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] as const }}
             className="inline-block px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full mb-4"
           >
             <span className="text-white text-xs font-black uppercase tracking-[0.4em]">{heroData.badgeText}</span>
@@ -195,7 +194,7 @@ export default function ContactPage() {
                       initial={{ opacity: 0, scale: 0.8, y: 20 }}
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.8, y: -20 }}
-                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
                       className="text-center py-16"
                     >
                       <motion.div

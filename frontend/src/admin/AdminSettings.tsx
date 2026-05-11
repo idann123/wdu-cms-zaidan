@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
-  User, Settings, Palette, Save, Camera,
+  User, Settings, Palette, Camera,
   ShieldCheck, EyeOff, MapPin, Bell, Globe, Lock, Smartphone
 } from 'lucide-react';
 
@@ -279,7 +279,7 @@ export default function AdminSettings() {
     <div className="w-full max-w-7xl mx-auto space-y-6 animate-in fade-in duration-700 dark:bg-surface-container-low/80 dark:backdrop-blur-sm">
       {/* Toast */}
       {toast && (
-        <div className={`fixed top-20 right-6 z-[100] px-6 py-3 rounded-xl shadow-lg font-semibold text-sm flex items-center gap-2 transition-all animate-in slide-in-from-right ${toast.type === 'success' ? 'bg-[#6ab149] text-white' : 'bg-red-500 text-white'
+        <div className={`fixed top-20 right-6 z-[100] px-6 py-3 rounded-xl shadow-lg font-semibold text-sm flex items-center gap-2 transition-all animate-in slide-in-from-right ${toast.type === 'success' ? 'bg-primary text-white' : 'bg-red-500 text-white'
           }`}>
           <span className="material-symbols-outlined text-base">
             {toast.type === 'success' ? 'check_circle' : 'error'}
@@ -300,7 +300,7 @@ export default function AdminSettings() {
            role="button"
            tabIndex={0}
            className={`pb-3 font-bold text-lg cursor-pointer transition-colors duration-300 active:bg-transparent ${activeTab === 'system'
-             ? 'text-[#6ab149] border-b-2 border-[#6ab149]'
+             ? 'text-primary border-b-2 border-primary'
              : 'text-on-surface-variant hover:text-on-surface dark:text-gray-400 dark:hover:text-gray-200'
              }`}
            style={{ background: 'transparent' }}
@@ -312,7 +312,7 @@ export default function AdminSettings() {
            role="button"
            tabIndex={0}
            className={`pb-3 font-bold text-lg cursor-pointer transition-colors duration-300 active:bg-transparent ${activeTab === 'ceo'
-             ? 'text-[#6ab149] border-b-2 border-[#6ab149]'
+             ? 'text-primary border-b-2 border-primary'
              : 'text-on-surface-variant hover:text-on-surface dark:text-gray-400 dark:hover:text-gray-200'
              }`}
            style={{ background: 'transparent' }}
@@ -324,7 +324,7 @@ export default function AdminSettings() {
           role="button"
           tabIndex={0}
           className={`pb-3 font-bold text-lg cursor-pointer transition-colors duration-300 active:bg-transparent ${activeTab === 'hero'
-            ? 'text-[#6ab149] border-b-2 border-[#6ab149]'
+            ? 'text-primary border-b-2 border-primary'
             : 'text-on-surface-variant hover:text-on-surface dark:text-gray-400 dark:hover:text-gray-200'
             }`}
           style={{ background: 'transparent' }}
@@ -404,7 +404,7 @@ export default function AdminSettings() {
                    <p className="text-[10px] text-on-surface-variant">{settings.twoFactor ? 'Active' : 'Not activated'}</p>
                 </div>
               </div>
-              <div className={`w-10 h-5 rounded-full relative transition-colors duration-300 ${settings.twoFactor ? 'bg-[#6ab149]' : 'bg-gray-200 dark:bg-gray-700'}`}>
+              <div className={`w-10 h-5 rounded-full relative transition-colors duration-300 ${settings.twoFactor ? 'bg-primary' : 'bg-gray-200 dark:bg-gray-700'}`}>
                 <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all duration-300 ${settings.twoFactor ? 'left-6' : 'left-1'}`}></div>
               </div>
             </div>
@@ -413,7 +413,7 @@ export default function AdminSettings() {
 
         {/* SECTION: NOTIFIKASI */}
         <section className="bg-surface-container-lowest rounded-3xl p-6 shadow-sm border border-outline-variant hover:shadow-md hover:shadow-gray-200/50 dark:hover:shadow-gray-800/50 transition-shadow">
-          <div className="flex items-center gap-3 mb-6 text-[#6ab149]">
+          <div className="flex items-center gap-3 mb-6 text-primary">
             <Bell size={20} className="stroke-[2.5px]" />
             <h2 className="font-bold text-on-surface tracking-tight">Notifikasi</h2>
           </div>
@@ -427,7 +427,7 @@ export default function AdminSettings() {
                 <span className="text-sm text-on-surface font-medium">{item.label}</span>
                 <input
                   type="checkbox"
-                  className="w-4 h-4 accent-[#6ab149] cursor-pointer"
+                  className="w-4 h-4 accent-primary cursor-pointer"
                   checked={settings.notifications[item.key as keyof typeof settings.notifications]}
                   onChange={() => handleNotificationChange(item.key as keyof typeof settings.notifications)}
                 />
@@ -438,7 +438,7 @@ export default function AdminSettings() {
 
         {/* SECTION: LOKASI & REGIONAL */}
         <section className="bg-surface-container-lowest rounded-3xl p-6 shadow-sm border border-outline-variant hover:shadow-md hover:shadow-gray-200/50 dark:hover:shadow-gray-800/50 transition-shadow">
-          <div className="flex items-center gap-3 mb-6 text-[#6ab149]">
+          <div className="flex items-center gap-3 mb-6 text-primary">
             <MapPin size={20} className="stroke-[2.5px]" />
             <h2 className="font-bold text-on-surface tracking-tight">Lokasi & Waktu</h2>
           </div>
@@ -448,7 +448,7 @@ export default function AdminSettings() {
               <select
                 value={settings.timezone}
                 onChange={(e) => handleInputChange('timezone', e.target.value)}
-                className="w-full p-3 bg-surface-container border-none rounded-xl text-sm outline-none appearance-none cursor-pointer focus:ring-1 focus:ring-[#6ab149]/30 text-on-surface"
+                className="w-full p-3 bg-surface-container border-none rounded-xl text-sm outline-none appearance-none cursor-pointer focus:ring-1 focus:ring-primary/30 text-on-surface"
               >
                 <option>(GMT+07:00) Jakarta, Bangkok</option>
                 <option>(GMT+08:00) Singapore, Makassar</option>
@@ -466,7 +466,7 @@ export default function AdminSettings() {
 
         {/* SECTION: PRIVASI */}
         <section className="bg-surface-container-lowest rounded-3xl p-6 shadow-sm border border-outline-variant hover:shadow-md hover:shadow-gray-200/50 dark:hover:shadow-gray-800/50 transition-shadow">
-          <div className="flex items-center gap-3 mb-6 text-[#6ab149]">
+          <div className="flex items-center gap-3 mb-6 text-primary">
             <EyeOff size={20} className="stroke-[2.5px]" />
             <h2 className="font-bold text-on-surface tracking-tight">Privasi</h2>
           </div>
@@ -487,7 +487,7 @@ export default function AdminSettings() {
 
         {/* SECTION: TAMPILAN & BRANDING */}
         <section className="bg-surface-container-lowest rounded-3xl p-6 shadow-sm border border-outline-variant hover:shadow-md hover:shadow-gray-200/50 dark:hover:shadow-gray-800/50 transition-shadow">
-          <div className="flex items-center gap-3 mb-6 text-[#6ab149]">
+          <div className="flex items-center gap-3 mb-6 text-primary">
             <Palette size={20} className="stroke-[2.5px]" />
             <h2 className="font-bold text-on-surface tracking-tight">Branding</h2>
           </div>
@@ -499,7 +499,7 @@ export default function AdminSettings() {
                   <button
                     key={color.name}
                     onClick={() => handleInputChange('accentColor', color.name)}
-                    className={`w-4 h-4 rounded-sm transition-all ${settings.accentColor === color.name ? 'ring-2 ring-offset-1 ring-[#6ab149] scale-110' : 'opacity-60 hover:opacity-100'
+                    className={`w-4 h-4 rounded-sm transition-all ${settings.accentColor === color.name ? 'ring-2 ring-offset-1 ring-primary scale-110' : 'opacity-60 hover:opacity-100'
                       }`}
                     style={{ backgroundColor: color.bg }}
                   />
@@ -509,16 +509,16 @@ export default function AdminSettings() {
                 </span>
               </div>
             </div>
-            <div className="h-20 border-2 border-dashed border-outline-variant rounded-2xl flex flex-col items-center justify-center bg-surface-container group hover:border-[#6ab149]/50 transition-all cursor-pointer">
-              <span className="material-symbols-outlined text-on-surface-variant group-hover:text-[#6ab149] mb-1">cloud_upload</span>
-              <span className="text-[10px] text-on-surface-variant font-bold group-hover:text-[#6ab149] transition-colors uppercase tracking-widest">Update Logo</span>
+            <div className="h-20 border-2 border-dashed border-outline-variant rounded-2xl flex flex-col items-center justify-center bg-surface-container group hover:border-primary/50 transition-all cursor-pointer">
+              <span className="material-symbols-outlined text-on-surface-variant group-hover:text-primary mb-1">cloud_upload</span>
+              <span className="text-[10px] text-on-surface-variant font-bold group-hover:text-primary transition-colors uppercase tracking-widest">Update Logo</span>
             </div>
           </div>
         </section>
 
         {/* SECTION: SISTEM & API (Full Width) */}
         <section className="bg-surface-container-lowest rounded-3xl p-6 shadow-sm border border-outline-variant hover:shadow-md hover:shadow-gray-200/50 dark:hover:shadow-gray-800/50 transition-shadow md:col-span-2 lg:col-span-3">
-          <div className="flex items-center gap-3 mb-6 text-[#6ab149]">
+          <div className="flex items-center gap-3 mb-6 text-primary">
             <Settings size={20} className="stroke-[2.5px]" />
               <h2 className="font-bold text-on-surface tracking-tight">Advanced Configuration</h2>
           </div>
@@ -529,7 +529,7 @@ export default function AdminSettings() {
                 type="text"
                 value={settings.smtpHost}
                 onChange={(e) => handleInputChange('smtpHost', e.target.value)}
-                className="w-full p-3 bg-surface-container border-none rounded-xl text-sm outline-none focus:ring-1 focus:ring-[#6ab149]/20 text-on-surface"
+                className="w-full p-3 bg-surface-container border-none rounded-xl text-sm outline-none focus:ring-1 focus:ring-primary/20 text-on-surface"
                 placeholder="smtp.mailtrap.io"
               />
             </div>
@@ -539,7 +539,7 @@ export default function AdminSettings() {
                 type="text"
                 value={settings.apiEndpoint}
                 onChange={(e) => handleInputChange('apiEndpoint', e.target.value)}
-                className="w-full p-3 bg-surface-container border-none rounded-xl text-sm outline-none focus:ring-1 focus:ring-[#6ab149]/20 text-on-surface"
+                className="w-full p-3 bg-surface-container border-none rounded-xl text-sm outline-none focus:ring-1 focus:ring-primary/20 text-on-surface"
                 placeholder="https://api.v1.com"
               />
             </div>
@@ -565,14 +565,14 @@ export default function AdminSettings() {
         <div className="w-full mt-6">
           {/* SECTION: PROFIL CEO */}
           <section className="bg-surface-container-lowest rounded-3xl p-6 shadow-md border-2 border-outline-variant hover:shadow-lg transition-shadow w-full">
-            <div className="flex items-center gap-3 mb-6 text-[#6ab149]">
+            <div className="flex items-center gap-3 mb-6 text-primary">
               <span className="material-symbols-outlined">badge</span>
               <h2 className="font-bold text-on-surface tracking-tight">CEO/Managing Director Profile</h2>
             </div>
             <div className="flex flex-col items-center space-y-8 max-w-2xl mx-auto">
               {/* Photo Preview - Centered */}
               <div className="relative group">
-                <div className="w-[500px] h-[500px] rounded-2xl bg-surface-container border-2 border-[#6ab149]/20 shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                <div className="w-[500px] h-[500px] rounded-2xl bg-surface-container border-2 border-primary/20 shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                   <img
                     src={settings.ceoProfile.photoUrl}
                     alt="CEO"
@@ -593,7 +593,7 @@ export default function AdminSettings() {
                       type="text"
                       value={settings.ceoProfile.name}
                       onChange={(e) => handleCeoProfileChange('name', e.target.value)}
-                      className="w-full p-3 bg-surface-container border-none rounded-xl text-sm focus:ring-2 focus:ring-[#6ab149]/20 outline-none transition-all text-on-surface"
+                      className="w-full p-3 bg-surface-container border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all text-on-surface"
                       placeholder="CEO/Managing Director Name"
                     />
                   </div>
@@ -603,7 +603,7 @@ export default function AdminSettings() {
                       type="text"
                       value={settings.ceoProfile.title}
                       onChange={(e) => handleCeoProfileChange('title', e.target.value)}
-                      className="w-full p-3 bg-surface-container border-none rounded-xl text-sm focus:ring-2 focus:ring-[#6ab149]/20 outline-none transition-all text-on-surface"
+                      className="w-full p-3 bg-surface-container border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all text-on-surface"
                       placeholder="Position (e.g: Managing Director)"
                     />
                   </div>
@@ -615,7 +615,7 @@ export default function AdminSettings() {
                     type="text"
                     value={settings.ceoProfile.photoUrl}
                     onChange={(e) => handleCeoProfileChange('photoUrl', e.target.value)}
-                    className="w-full p-3 bg-surface-container border-none rounded-xl text-sm focus:ring-2 focus:ring-[#6ab149]/20 outline-none transition-all text-on-surface"
+                    className="w-full p-3 bg-surface-container border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all text-on-surface"
                     placeholder="https://example.com/photo.jpg"
                   />
                 </div>
@@ -626,17 +626,17 @@ export default function AdminSettings() {
                     value={settings.ceoProfile.description}
                     onChange={(e) => handleCeoProfileChange('description', e.target.value)}
                     rows={6}
-                    className="w-full p-3 bg-surface-container border-none rounded-xl text-sm focus:ring-2 focus:ring-[#6ab149]/20 outline-none transition-all text-on-surface resize-none"
+                    className="w-full p-3 bg-surface-container border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all text-on-surface resize-none"
                     placeholder="Deskripsi singkat tentang CEO..."
                   />
                 </div>
                 {/* Checkbox: Tampilkan di Halaman Utama */}
-                <div className="flex items-center gap-3 p-3 bg-surface-container rounded-xl border border-[#6ab149]/10">
+                <div className="flex items-center gap-3 p-3 bg-surface-container rounded-xl border border-primary/10">
                   <input
                     type="checkbox"
                     checked={settings.ceoProfile.isActive}
                     onChange={(e) => handleCeoProfileChange('isActive', e.target.checked)}
-                    className="w-5 h-5 accent-[#6ab149] rounded cursor-pointer"
+                    className="w-5 h-5 accent-primary rounded cursor-pointer"
                     id="ceoIsActive"
                   />
                   <label htmlFor="ceoIsActive" className="text-sm font-semibold text-on-surface cursor-pointer">
@@ -738,18 +738,18 @@ export default function AdminSettings() {
       {/* Floating Action Button */}
       <div className="fixed bottom-10 right-10 flex items-center gap-4 z-50 animate-in slide-in-from-bottom duration-500">
         {hasUnsavedChanges && (
-          <div className="hidden md:flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-xl border border-[#6ab149]/10 animate-bounce duration-1000">
+          <div className="hidden md:flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-xl border border-primary/10 animate-bounce duration-1000">
             <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></div>
             <p className="text-[10px] font-bold text-gray-500 tracking-tight">Unsaved changes</p>
           </div>
         )}
            <button
-             onClick={handleSave}
-             disabled={saving}
-             className="flex items-center gap-2 px-8 py-3 bg-[#6ab149] text-white rounded-xl font-bold text-sm hover:opacity-90 transition-all shadow-lg shadow-[#6ab149]/30 disabled:opacity-60"
-           >
-             <span className="material-symbols-outlined text-lg">save</span>
-             {saving ? 'Saving...' : 'SAVE CHANGES'}
+              onClick={handleSaveAll}
+              disabled={isSaving}
+              className="flex items-center gap-2 px-8 py-3 bg-primary text-white rounded-xl font-bold text-sm hover:opacity-90 transition-all shadow-lg shadow-primary/30 disabled:opacity-60"
+            >
+              <span className="material-symbols-outlined text-lg">save</span>
+              {isSaving ? 'Saving...' : 'SAVE CHANGES'}
            </button>
       </div>
     </div>

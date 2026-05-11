@@ -58,15 +58,15 @@ const [heroData, setHeroData] = useState({
   };
 
   const fadeInUp = {
-    hidden: { opacity: 0, y: 60, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
+    hidden: { opacity: 0, y: 60, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const } }
   };
 
   const revealLeft = {
     hidden: { x: "-100%" },
     visible: {
       x: "100%",
-      transition: { duration: 1.5, ease: [0.77, 0, 0.175, 1] }
+      transition: { duration: 1.5, ease: [0.77, 0, 0.175, 1] as const }
     }
   };
 
@@ -75,50 +75,9 @@ const [heroData, setHeroData] = useState({
     visible: {
       scale: 1,
       opacity: 1,
-      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] as const }
     }
   };
-
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2, delayChildren: 0.3 }
-    }
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50, scale: 0.9 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { duration: 0.6 }
-    }
-  };
-
-  const misiItems = [
-    {
-      title: "Riset & Survei",
-      text: "Melakukan riset, survei dan kajian yang kredibel sesuai kaidah ilmiah untuk menghasilkan data yang akurat, presisi, dan andal.",
-      icon: "biotech",
-      gradient: "from-primary to-primary/70"
-    },
-    {
-      title: "Event Organizer",
-      text: "Mengorganisir sebuah kegiatan dengan akurat, presisi dan andal untuk kepentingan publik.",
-      icon: "event_available",
-      gradient: "from-secondary to-secondary/70"
-    },
-    {
-      title: "Inovasi & Kreativitas",
-      text: "Menjadi perusahaan kreatif yang penuh inovasi, solusi dan gagasan untuk masa depan.",
-      icon: "psychology",
-      gradient: "from-amber-500 to-amber-600"
-    }
-  ];
-
-  const floatingParticles = Array.from({ length: 12 });
 
   return (
     <div className="bg-white overflow-hidden">
@@ -417,7 +376,7 @@ const [heroData, setHeroData] = useState({
                 img: ceoProfile.photoUrl,
               } : null,
               { name: "Dr. Ir. Erviani M.Si", role: "Komisaris Utama", img: "https://wahanadata.co.id/wp-content/uploads/2025/02/direksi_bu-erfi_scaled-1024x841.png", pos: "left center" },
-            ].filter(Boolean).map((leader, i) => (
+            ].filter((x): x is NonNullable<typeof x> => x != null).map((leader, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, scale: 0.9 }}

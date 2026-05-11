@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { Download } from 'lucide-react';
-import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
-import { useNavigate } from 'react-router-dom';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import api from '../services/api';
 import { useAuthStore } from '../store/authStore';
 import { logActivity } from '../utils/activityLogger';
@@ -105,7 +104,6 @@ const exportToCSV = (data: Project[], filename: string) => {
 };
 
 export default function AdminProjects() {
-  const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
@@ -117,7 +115,6 @@ export default function AdminProjects() {
   const [deleting, setDeleting] = useState<string | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'reorder'>('grid');
-  const [reordering, setReordering] = useState(false);
   const [toast, setToast] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
 
   const showToast = (type: 'success' | 'error', msg: string) => {
@@ -503,7 +500,6 @@ export default function AdminProjects() {
                 newProjects.splice(targetIndex, 0, moved);
 
                 setProjects(newProjects);
-                setReordering(true);
               }}>
                 <Droppable droppableId="projects">
                   {(provided) => (

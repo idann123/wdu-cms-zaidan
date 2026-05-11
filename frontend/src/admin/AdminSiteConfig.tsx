@@ -108,7 +108,7 @@ export default function AdminSiteConfig() {
   return (
     <div className="space-y-8 pb-20 max-w-4xl">
       {toast && (
-        <div className={`fixed top-20 right-6 z-[100] px-6 py-3 rounded-xl shadow-lg font-semibold text-sm flex items-center gap-2 ${toast.type === 'success' ? 'bg-[#6ab149] text-white' : 'bg-red-500 text-white'}`}>
+        <div className={`fixed top-20 right-6 z-[100] px-6 py-3 rounded-xl shadow-lg font-semibold text-sm flex items-center gap-2 ${toast.type === 'success' ? 'bg-primary text-white' : 'bg-red-500 text-white'}`}>
           <span className="material-symbols-outlined text-base">{toast.type === 'success' ? 'check_circle' : 'error'}</span>
           {toast.msg}
         </div>
@@ -139,7 +139,7 @@ export default function AdminSiteConfig() {
       {/* INFORMASI KONTAK Card */}
       <section className={`bg-surface-container-lowest rounded-3xl p-8 border border-outline-variant/20 ${!isSuperAdmin ? 'opacity-75' : ''}`}>
            <h2 className="text-lg font-bold text-on-surface mb-6 flex items-center gap-2">
-           <span className="material-symbols-outlined text-[#6ab149]">contact_mail</span>
+           <span className="material-symbols-outlined text-primary">contact_mail</span>
            CONTACT INFORMATION
          </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -150,7 +150,7 @@ export default function AdminSiteConfig() {
               value={config.email}
               onChange={(e) => handleChange('email', e.target.value)}
               readOnly={!isSuperAdmin}
-              className={`px-4 py-3 bg-surface-container rounded-xl border-2 border-transparent outline-none text-sm ${isSuperAdmin ? 'focus:border-[#6ab149] cursor-text' : 'cursor-not-allowed text-on-surface-variant'}`}
+              className={`px-4 py-3 bg-surface-container rounded-xl border-2 border-transparent outline-none text-sm ${isSuperAdmin ? 'focus:border-primary cursor-text' : 'cursor-not-allowed text-on-surface-variant'}`}
               placeholder="email@domain.com"
             />
           </div>
@@ -161,7 +161,7 @@ export default function AdminSiteConfig() {
               value={config.telepon}
               onChange={(e) => handleChange('telepon', e.target.value)}
               readOnly={!isSuperAdmin}
-              className={`px-4 py-3 bg-surface-container rounded-xl border-2 border-transparent outline-none text-sm ${isSuperAdmin ? 'focus:border-[#6ab149] cursor-text' : 'cursor-not-allowed text-on-surface-variant'}`}
+              className={`px-4 py-3 bg-surface-container rounded-xl border-2 border-transparent outline-none text-sm ${isSuperAdmin ? 'focus:border-primary cursor-text' : 'cursor-not-allowed text-on-surface-variant'}`}
               placeholder="+62 21 1234 5678"
             />
           </div>
@@ -172,7 +172,7 @@ export default function AdminSiteConfig() {
               onChange={(e) => handleChange('alamat', e.target.value)}
               readOnly={!isSuperAdmin}
               rows={3}
-              className={`px-4 py-3 bg-surface-container rounded-xl border-2 border-transparent outline-none text-sm resize-none ${isSuperAdmin ? 'focus:border-[#6ab149] cursor-text' : 'cursor-not-allowed text-on-surface-variant'}`}
+              className={`px-4 py-3 bg-surface-container rounded-xl border-2 border-transparent outline-none text-sm resize-none ${isSuperAdmin ? 'focus:border-primary cursor-text' : 'cursor-not-allowed text-on-surface-variant'}`}
                placeholder="Jl. Example No. 123, Jakarta..."
             />
           </div>
@@ -182,7 +182,7 @@ export default function AdminSiteConfig() {
       {/* COMPANY PROFILE Card */}
       <section className={`bg-surface-container-lowest rounded-3xl p-8 border border-outline-variant/20 ${!isSuperAdmin ? 'opacity-75' : ''}`}>
            <h2 className="text-lg font-bold text-on-surface mb-6 flex items-center gap-2">
-           <span className="material-symbols-outlined text-[#6ab149]">description</span>
+           <span className="material-symbols-outlined text-primary">description</span>
            COMPANY PROFILE FILE
          </h2>
         <div className="border-2 border-dashed border-outline-variant/30 rounded-xl p-8 text-center">
@@ -192,14 +192,14 @@ export default function AdminSiteConfig() {
             config.companyProfile ? (
               <div className="flex items-center justify-center gap-4">
                  <span className="text-xs text-on-surface-variant bg-green-50 text-green-600 px-3 py-1 rounded-full">File saved</span>
-                <label className="cursor-pointer px-4 py-2 bg-[#6ab149]/10 text-[#6ab149] rounded-lg font-semibold text-sm hover:bg-[#6ab149]/20 transition-colors">
+                <label className="cursor-pointer px-4 py-2 bg-primary/10 text-primary rounded-lg font-semibold text-sm hover:bg-primary/20 transition-colors">
                    <span className="material-symbols-outlined text-base mr-1">upload</span>
                    Change File
                   <input type="file" accept=".pdf" className="hidden" onChange={(e) => handleFileUpload(e, 'companyProfile')} disabled={uploading} />
                 </label>
               </div>
             ) : (
-              <label className="cursor-pointer inline-flex items-center gap-2 px-6 py-3 bg-[#6ab149] text-white rounded-xl font-semibold text-sm hover:opacity-90 transition-all">
+              <label className="cursor-pointer inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-xl font-semibold text-sm hover:opacity-90 transition-all">
                 <span className="material-symbols-outlined text-base">upload</span>
                 Upload File
                 <input type="file" accept=".pdf" className="hidden" onChange={(e) => handleFileUpload(e, 'companyProfile')} disabled={uploading} />
@@ -226,7 +226,7 @@ export default function AdminSiteConfig() {
       {/* FOOTER & SOCIAL MEDIA Card */}
       <section className={`bg-surface-container-lowest rounded-3xl p-8 border border-outline-variant/20 ${!isSuperAdmin ? 'opacity-75' : ''}`}>
         <h2 className="text-lg font-bold text-on-surface mb-6 flex items-center gap-2">
-          <span className="material-symbols-outlined text-[#6ab149]">footer</span>
+          <span className="material-symbols-outlined text-primary">footer</span>
           FOOTER & SOCIAL MEDIA
         </h2>
         <div className="space-y-6">
@@ -237,14 +237,14 @@ export default function AdminSiteConfig() {
               value={config.footerCopyright}
               onChange={(e) => handleChange('footerCopyright', e.target.value)}
               readOnly={!isSuperAdmin}
-              className={`px-4 py-3 bg-surface-container rounded-xl border-2 border-transparent outline-none text-sm ${isSuperAdmin ? 'focus:border-[#6ab149] cursor-text' : 'cursor-not-allowed text-on-surface-variant'}`}
+              className={`px-4 py-3 bg-surface-container rounded-xl border-2 border-transparent outline-none text-sm ${isSuperAdmin ? 'focus:border-primary cursor-text' : 'cursor-not-allowed text-on-surface-variant'}`}
               placeholder="© 2024 Company Name. All rights reserved."
             />
           </div>
           <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-2">
               <label className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">YouTube</label>
-              <div className={`flex items-center gap-2 px-3 py-2.5 bg-surface-container rounded-xl border-2 border-transparent outline-none ${isSuperAdmin ? 'focus-within:border-[#6ab149]' : ''}`}>
+              <div className={`flex items-center gap-2 px-3 py-2.5 bg-surface-container rounded-xl border-2 border-transparent outline-none ${isSuperAdmin ? 'focus-within:border-primary' : ''}`}>
                 <span className="material-symbols-outlined text-red-600 text-sm">smart_display</span>
                 <input
                   type="text"
@@ -258,7 +258,7 @@ export default function AdminSiteConfig() {
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Instagram</label>
-              <div className={`flex items-center gap-2 px-3 py-2.5 bg-surface-container rounded-xl border-2 border-transparent outline-none ${isSuperAdmin ? 'focus-within:border-[#6ab149]' : ''}`}>
+              <div className={`flex items-center gap-2 px-3 py-2.5 bg-surface-container rounded-xl border-2 border-transparent outline-none ${isSuperAdmin ? 'focus-within:border-primary' : ''}`}>
                 <span className="material-symbols-outlined text-pink-500 text-sm">photo_camera</span>
                 <input
                   type="text"
@@ -280,7 +280,7 @@ export default function AdminSiteConfig() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="flex items-center gap-2 px-8 py-3 bg-[#6ab149] text-white rounded-xl font-bold text-sm hover:opacity-90 transition-all shadow-lg shadow-[#6ab149]/30 disabled:opacity-60"
+            className="flex items-center gap-2 px-8 py-3 bg-primary text-white rounded-xl font-bold text-sm hover:opacity-90 transition-all shadow-lg shadow-primary/30 disabled:opacity-60"
           >
             <span className="material-symbols-outlined text-lg">save</span>
              {saving ? 'Saving...' : 'SAVE CHANGES'}

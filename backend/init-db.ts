@@ -1,14 +1,33 @@
 import { Client } from 'pg';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const DEFAULT_DB = 'postgres';
 const TARGET_DB = 'wdu_cms_db';
 
+function parseDatabaseUrl(url: string) {
+  const pattern = /postgresql:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/;
+  const match = url.match(pattern);
+  if (!match) return null;
+  return {
+    user: match[1],
+    password: decodeURIComponent(match[2]),
+    host: match[3],
+    port: parseInt(match[4], 10),
+    database: match[5],
+  };
+}
+
 async function initDatabase() {
+  const dbUrl = process.env.DATABASE_URL || '';
+  const parsed = parseDatabaseUrl(dbUrl);
+
   const client = new Client({
-    host: 'localhost',
-    port: 5432,
-    user: 'postgres',
-    password: '123456',
+    host: parsed?.host || 'localhost',
+    port: parsed?.port || 5432,
+    user: parsed?.user || 'postgres',
+    password: parsed?.password || '123456',
     database: DEFAULT_DB,
   });
 

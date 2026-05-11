@@ -1,12 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export default function AdminIntegration() {
-  const [toast, setToast] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
-
-  const showToast = (type: 'success' | 'error', msg: string) => {
-    setToast({ type, msg });
-    setTimeout(() => setToast(null), 3000);
-  };
+  const [toast] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
 
   return (
     <div className="space-y-8 pb-20 max-w-4xl">

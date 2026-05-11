@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { Download, Archive } from 'lucide-react';
 import api from '../services/api';
@@ -247,7 +247,7 @@ export default function AdminMessages() {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 50 }}
-            className={`fixed top-24 right-8 z-[100] px-6 py-4 rounded-2xl shadow-2xl font-bold text-sm bg-primary text-white flex items-center gap-3 ${toast.type === 'error' ? 'bg-error' : ''}`}
+            className={`fixed top-24 right-8 z-[100] px-6 py-4 rounded-2xl shadow-2xl font-bold text-xs uppercase tracking-widest flex items-center gap-3 ${toast.type === 'error' ? 'bg-error text-white' : 'bg-primary text-white'}`}
           >
             <span className="material-symbols-outlined">{toast.type === 'success' ? 'check_circle' : 'error'}</span>
             {toast.msg}
@@ -268,13 +268,16 @@ export default function AdminMessages() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="bg-white rounded-[2rem] p-10 max-w-sm w-full shadow-2xl"
+              className="bg-surface-container-lowest rounded-[2.5rem] p-10 max-w-sm w-full shadow-2xl text-center"
             >
-              <h3 className="text-2xl font-black mb-4">Delete Message?</h3>
-              <p className="text-gray-500 text-sm mb-6">This action cannot be undone. The message will be permanently deleted.</p>
+              <div className="w-16 h-16 rounded-full bg-error/10 text-error flex items-center justify-center mx-auto mb-6">
+                <span className="material-symbols-outlined text-3xl">warning</span>
+              </div>
+              <h3 className="text-2xl font-black font-headline text-on-surface mb-2">Delete Message?</h3>
+              <p className="text-on-surface-variant text-sm font-medium mb-8 leading-relaxed">This action cannot be undone. The message will be permanently deleted.</p>
               <div className="flex gap-4">
-                <button onClick={() => setShowDeleteConfirm(null)} className="flex-1 py-4 rounded-2xl bg-gray-100 font-bold hover:bg-gray-200 transition-all">Cancel</button>
-                <button onClick={() => handleDelete(showDeleteConfirm)} className="flex-1 py-4 rounded-2xl bg-error text-white font-bold hover:opacity-90 transition-all">                   {deleting ? '...' : 'Delete'}</button>
+                <button onClick={() => setShowDeleteConfirm(null)} className="flex-1 py-4 rounded-2xl border border-outline-variant text-on-surface font-black text-xs uppercase tracking-widest hover:bg-surface-container transition-all">Cancel</button>
+                <button onClick={() => handleDelete(showDeleteConfirm)} className="flex-1 py-4 rounded-2xl bg-error text-white font-black text-xs uppercase tracking-widest shadow-lg shadow-error/20 hover:opacity-90 active:scale-95 transition-all">                   {deleting ? '...' : 'Yes, Delete'}</button>
               </div>
             </motion.div>
           </motion.div>
@@ -294,28 +297,28 @@ export default function AdminMessages() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="bg-white rounded-[2.5rem] w-full max-w-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+              className="bg-surface-container-lowest rounded-[2.5rem] w-full max-w-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
             >
-              <div className="px-12 py-10 border-b flex justify-between items-start bg-gray-50/50">
+              <div className="px-12 py-10 border-b border-outline-variant/10 flex justify-between items-start bg-surface-container-low/50">
                 <div>
                   <h3 className="text-3xl font-black text-on-surface leading-tight tracking-tighter">
                     {selected?.subject || '(No Subject)'}
                   </h3>
-                  <p className="text-gray-900 font-bold text-sm mt-4">{selected?.name}</p>
-                  <p className="text-gray-500 text-xs">{selected?.email}</p>
+                  <p className="text-on-surface font-bold text-sm mt-4">{selected?.name}</p>
+                  <p className="text-on-surface-variant text-xs">{selected?.email}</p>
                   {selected?.phone && (
-                    <p className="text-gray-500 text-xs mt-1">
+                    <p className="text-on-surface-variant text-xs mt-1">
                       <span className="material-symbols-outlined text-xs align-middle mr-1">phone</span>
                       {selected.phone}
                     </p>
                   )}
                 </div>
-                <button onClick={() => setSelected(null)} className="p-3 rounded-2xl hover:bg-gray-200 transition-all text-gray-400 hover:text-gray-900">
+                <button onClick={() => setSelected(null)} className="p-3 rounded-2xl hover:bg-surface-container-high transition-all text-on-surface-variant hover:text-on-surface">
                   <span className="material-symbols-outlined text-2xl">close</span>
                 </button>
               </div>
               <div className="px-12 py-10 overflow-y-auto flex-1 custom-scrollbar">
-                <div className="bg-gray-50 rounded-3xl p-8 border border-gray-100 shadow-sm leading-relaxed text-gray-800 font-body text-base whitespace-pre-wrap">
+                <div className="bg-surface-container-low rounded-3xl p-8 border border-outline-variant/10 shadow-sm leading-relaxed text-on-surface font-body text-base whitespace-pre-wrap">
                   {selected?.message}
                 </div>
                 <AnimatePresence>
@@ -330,13 +333,13 @@ export default function AdminMessages() {
                         value={replyText}
                         onChange={(e) => setReplyText(e.target.value)}
                         placeholder="Tulis balasan..."
-                        className="w-full h-44 p-6 bg-white border-2 border-primary/20 focus:border-primary outline-none rounded-3xl text-sm transition-all"
+                        className="w-full h-44 p-6 bg-surface-container-low border-2 border-primary/20 focus:border-primary outline-none rounded-3xl text-sm transition-all"
                       />
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
-              <div className="px-12 py-8 border-t flex justify-between items-center bg-gray-50/30">
+              <div className="px-12 py-8 border-t border-outline-variant/10 flex justify-between items-center bg-surface-container-low/30">
                 {isSuperAdmin ? (
                   <button
                     onClick={() => setShowDeleteConfirm(selected.id)}
@@ -346,7 +349,7 @@ export default function AdminMessages() {
                     Delete Message
                   </button>
                 ) : (
-                  <div className="flex items-center gap-1.5 text-gray-300 text-sm cursor-not-allowed select-none">
+                  <div className="flex items-center gap-1.5 text-on-surface-variant/30 text-sm cursor-not-allowed select-none">
                     <span className="material-symbols-outlined text-base">lock</span>
                     Delete Message
                   </div>
@@ -354,7 +357,7 @@ export default function AdminMessages() {
                 <div className="flex gap-4">
                   {isReplying ? (
                     <>
-                      <button onClick={() => setIsReplying(false)} className="px-8 py-3 rounded-2xl border-2 font-bold text-sm">Cancel</button>
+                      <button onClick={() => setIsReplying(false)} className="px-8 py-3 rounded-2xl border-2 border-outline-variant/20 text-on-surface font-bold text-sm hover:bg-surface-container transition-all">Cancel</button>
                       <a href={`mailto:${selected.email}?subject=Re: ${selected.subject}&body=${encodeURIComponent(replyText)}`} className="px-10 py-3 rounded-2xl bg-primary text-white font-black text-sm shadow-lg shadow-primary/20">Send Email</a>
                     </>
                   ) : (
@@ -381,8 +384,8 @@ export default function AdminMessages() {
       >
         <div>
           <span className="text-primary font-black text-[11px] uppercase tracking-[0.3em] mb-3 block">Communications</span>
-          <h1 className="font-headline text-5xl md:text-6xl font-black tracking-tighter text-gray-900 leading-none">Inbox</h1>
-          <p className="text-gray-500 text-sm mt-4 font-medium max-w-md">Unified management for incoming messages from the website.</p>
+          <h1 className="font-headline text-5xl md:text-6xl font-black tracking-tighter text-on-surface leading-none">Inbox</h1>
+          <p className="text-on-surface-variant text-sm mt-4 font-medium max-w-md">Unified management for incoming messages from the website.</p>
         </div>
         <div className="flex gap-4">
           <motion.button 
@@ -396,7 +399,7 @@ export default function AdminMessages() {
                 showToast('error', 'Failed to export data.');
               }
             }} 
-            className="px-6 py-4 rounded-2xl bg-white border border-gray-200 font-bold text-gray-600 hover:bg-gray-50 transition-all shadow-sm flex items-center gap-2"
+            className="px-6 py-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/20 font-bold text-on-surface-variant hover:bg-surface-container-low transition-all shadow-sm flex items-center gap-2"
           >
             <Download size={18} />
             Export CSV
@@ -415,21 +418,26 @@ export default function AdminMessages() {
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-6 rounded-[2.5rem] border border-gray-100 shadow-sm"
+        className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-surface-container-lowest p-6 rounded-[2.5rem] border border-outline-variant/10 shadow-xl"
       >
-        <div className="flex items-center gap-2 p-1.5 bg-gray-100 rounded-2xl">
+        <div className="flex items-center gap-2 p-1.5 bg-surface-container rounded-2xl">
           {(['all', 'unread', 'read'] as const).map((status) => (
-            <button key={status} onClick={() => setActiveStatus(status)} className={`px-8 py-2.5 rounded-xl text-sm font-black transition-all ${activeStatus === status ? 'bg-white text-primary shadow-md' : 'text-gray-500 hover:text-gray-900'}`}>{status}</button>
+            <button key={status} onClick={() => setActiveStatus(status)} className={`px-8 py-2.5 rounded-xl text-sm font-black transition-all ${activeStatus === status ? 'bg-surface-container-lowest text-primary shadow-md' : 'text-on-surface-variant hover:text-on-surface'}`}>{status}</button>
           ))}
         </div>
         <div className="relative w-full md:w-96">
-          <span className="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-gray-400">search</span>
-          <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}                placeholder="Search name, subject, or email..." className="w-full pl-14 pr-6 py-4 bg-gray-100 border-2 border-transparent focus:border-primary/20 focus:bg-white outline-none rounded-2xl text-sm font-bold transition-all" />
+          <span className="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+          <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}                placeholder="Search name, subject, or email..." className="w-full pl-14 pr-6 py-4 bg-surface-container border-2 border-transparent focus:border-primary/20 focus:bg-surface-container-lowest outline-none rounded-2xl text-sm font-bold transition-all" />
         </div>
       </motion.div>
 
-      <div className="bg-white rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-xl shadow-gray-200/20">
-        <div className="grid grid-cols-12 gap-4 px-10 py-7 bg-gray-50/50 border-b border-gray-100 text-[10px] uppercase font-black tracking-[0.2em] text-gray-400">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: "spring", stiffness: 100, damping: 20 }}
+        className="bg-surface-container-lowest rounded-[2.5rem] overflow-hidden border border-outline-variant/10 shadow-xl"
+      >
+        <div className="grid grid-cols-12 gap-4 px-10 py-7 bg-surface-container-low border-b border-outline-variant/10 text-[10px] uppercase font-black tracking-[0.2em] text-on-surface-variant">
           <div className="col-span-1 text-center">Status</div>
                    <div className="col-span-3">Sender</div>
                    <div className="col-span-6">Message & Subject</div>
@@ -443,12 +451,12 @@ export default function AdminMessages() {
             initial="hidden"
             animate="visible"
             exit={{ opacity: 0 }}
-            className="divide-y divide-gray-50"
+            className="divide-y divide-outline-variant/10"
           >
             {loading ? (
               <div className="p-10 space-y-6">
                 {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="h-16 bg-gray-50 animate-pulse rounded-2xl" />
+                  <div key={i} className="h-16 bg-surface-container animate-pulse rounded-2xl" />
                 ))}
               </div>
             ) : !data || data.messages.length === 0 ? (
@@ -457,11 +465,11 @@ export default function AdminMessages() {
                 animate={{ opacity: 1 }}
                 className="py-32 text-center"
               >
-                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <span className="material-symbols-outlined text-gray-300 text-4xl">inventory_2</span>
+                <div className="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mx-auto mb-6">
+                  <span className="material-symbols-outlined text-on-surface-variant/30 text-4xl">inventory_2</span>
                 </div>
-                <h4 className="text-xl font-bold text-gray-900">Empty Inbox</h4>
-                <p className="text-gray-500 text-sm mt-2">No incoming messages found at this time.</p>
+                <h4 className="text-xl font-bold text-on-surface">Empty Inbox</h4>
+                <p className="text-on-surface-variant text-sm mt-2">No incoming messages found at this time.</p>
               </motion.div>
             ) : (
               data.messages.map((msg) => (
@@ -478,45 +486,45 @@ export default function AdminMessages() {
                     />
                   )}
                   <div className="col-span-1 flex justify-center">
-                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all ${!msg?.isRead ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-gray-100 text-gray-400'}`}>
+                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all ${!msg?.isRead ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-surface-container text-on-surface-variant'}`}>
                       <span className="material-symbols-outlined text-lg">{msg?.isRead ? 'drafts' : 'mail'}</span>
                     </div>
                   </div>
                   <div className="col-span-3">
-                    <p className={`text-base leading-tight transition-all ${!msg?.isRead ? 'font-black text-gray-900' : 'font-bold text-gray-500 opacity-70'}`}>{msg?.name}</p>
-                    <p className="text-xs text-gray-400 mt-0.5">{msg?.email}</p>
+                    <p className={`text-base leading-tight transition-all ${!msg?.isRead ? 'font-black text-on-surface' : 'font-bold text-on-surface-variant opacity-70'}`}>{msg?.name}</p>
+                    <p className="text-xs text-on-surface-variant mt-0.5">{msg?.email}</p>
                     {msg?.phone && (
-                      <p className="text-xs text-gray-400 mt-0.5 flex items-center gap-1">
+                      <p className="text-xs text-on-surface-variant mt-0.5 flex items-center gap-1">
                         <span className="material-symbols-outlined text-[10px]">phone</span>
                         {msg.phone}
                       </p>
                     )}
                   </div>
                   <div className="col-span-6">
-                    <p className={`text-base truncate transition-all ${!msg?.isRead ? 'font-black text-gray-900' : 'font-bold text-gray-500 opacity-60'}`}>{msg?.subject || '(No Subject)'}</p>
-                    <p className="text-sm text-gray-400 truncate opacity-70 italic font-body">{msg?.message}</p>
+                    <p className={`text-base truncate transition-all ${!msg?.isRead ? 'font-black text-on-surface' : 'font-bold text-on-surface-variant opacity-60'}`}>{msg?.subject || '(No Subject)'}</p>
+                    <p className="text-sm text-on-surface-variant truncate opacity-70 italic font-body">{msg?.message}</p>
                   </div>
                   <div className="col-span-2 text-right flex items-center justify-end gap-3">
-                    <p className={`text-xs font-black font-label ${!msg?.isRead ? 'text-primary' : 'text-gray-400 opacity-50'}`}>
+                    <p className={`text-xs font-black font-label ${!msg?.isRead ? 'text-primary' : 'text-on-surface-variant opacity-50'}`}>
                       {msg?.createdAt ? new Date(msg?.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }) : '-'}
                     </p>
                     <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all transform translate-x-4 group-hover:translate-x-0">
                       <button 
                         onClick={(e) => { e.stopPropagation(); showToast('success', 'Message archived.'); }}
-                        className="p-2 rounded-xl hover:bg-gray-200 text-gray-400 hover:text-gray-600 transition-all"
+                        className="p-2 rounded-xl hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all"
                       >
                         <Archive size={16} />
                       </button>
                       <button 
                         onClick={(e) => { e.stopPropagation(); window.location.href = `mailto:${msg?.email}`; }}
-                        className="p-2 rounded-xl hover:bg-gray-200 text-gray-400 hover:text-gray-600 transition-all"
+                        className="p-2 rounded-xl hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all"
                       >
                         <span className="material-symbols-outlined text-base">reply</span>
                       </button>
                       {isSuperAdmin && (
                         <button
                           onClick={(e) => { e.stopPropagation(); setShowDeleteConfirm(msg?.id); }}
-                          className="p-2 rounded-xl hover:bg-red-50 text-gray-400 hover:text-error transition-all"
+                          className="p-2 rounded-xl hover:bg-error/10 text-on-surface-variant hover:text-error transition-all"
                         >
                           <span className="material-symbols-outlined text-base">delete</span>
                         </button>
@@ -530,15 +538,15 @@ export default function AdminMessages() {
         </AnimatePresence>
 
         {data && data.totalPages > 1 && (
-          <div className="px-10 py-6 bg-gray-50/30 flex justify-between items-center border-t border-gray-100">
-             <p className="text-xs text-gray-500 font-bold">Total pesan: <span className="text-primary">{data.total}</span></p>
+          <div className="px-10 py-6 bg-surface-container-low flex justify-between items-center border-t border-outline-variant/10">
+             <p className="text-xs text-on-surface-variant font-bold">Total pesan: <span className="text-primary">{data.total}</span></p>
              <div className="flex gap-2">
                 <motion.button 
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   disabled={page === 1} 
                   onClick={() => setPage(p => p - 1)}
-                  className="px-6 py-2 rounded-xl bg-white border font-bold text-xs hover:bg-gray-50 disabled:opacity-30 transition-all"
+                  className="px-6 py-2 rounded-xl bg-surface-container-lowest border border-outline-variant/20 font-bold text-xs hover:bg-surface-container-low disabled:opacity-30 transition-all"
                 >
                   Sebelumnya
                 </motion.button>
@@ -547,14 +555,14 @@ export default function AdminMessages() {
                   whileTap={{ scale: 0.95 }}
                   disabled={page === data.totalPages} 
                   onClick={() => setPage(p => p + 1)}
-                  className="px-6 py-2 rounded-xl bg-white border font-bold text-xs hover:bg-gray-50 disabled:opacity-30 transition-all"
+                  className="px-6 py-2 rounded-xl bg-surface-container-lowest border border-outline-variant/20 font-bold text-xs hover:bg-surface-container-low disabled:opacity-30 transition-all"
                 >
                   Selanjutnya
                 </motion.button>
              </div>
           </div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import EmptyState from '../components/EmptyState';
 import { useAuthStore } from '../store/authStore';
@@ -21,7 +21,6 @@ interface UploadProgress {
 }
 
 const STORAGE_KEY = 'wdu_admin_media';
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/v1';
 
 const defaultImages = [
   'https://wahanadata.co.id/wp-content/uploads/2025/01/91ff19eb-9bae-41be-bd79-86c09efa26ae.jpg',
@@ -82,7 +81,7 @@ const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'ima
 const maxSize = 5 * 1024 * 1024;
 
 export default function AdminMedia() {
-  const { user, accessToken } = useAuthStore();
+  const { user } = useAuthStore();
   const [media, setMedia] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);

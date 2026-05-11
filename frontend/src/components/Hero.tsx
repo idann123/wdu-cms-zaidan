@@ -1,28 +1,27 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const defaultHero = {
-  badgeText: 'Wahana Data Utama - Since 2006',
-  headline: ['Data Terpadu,', 'Solusi Cerdas', 'Hasil Maksimal'],
-  description: 'Percayakan kebutuhan riset, analisis data, dan teknologi kepada Wahana Data Utama. Kami mengubah data menjadi wawasan berharga dan solusi praktis yang membantu Anda meraih keunggulan kompetitif di bisnis anda.',
-  stats: [
-    { value: '25+', label: 'Enterprise Clients' },
-    { value: '150+', label: 'Projects Done' },
-    { value: '99%', label: 'Uptime Security' },
-  ],
+  badgeText: 'Enterprise Data Intelligence',
+  headline: 'Transforming Complex Information into Strategic Advantage.',
+  description: 'Wahana Data Utama delivers precise IT consulting and deep-dive research for B2B leaders. We bridge the gap between raw data and actionable organizational intelligence.',
   carouselImages: [
-    "https://wahanadata.co.id/wp-content/uploads/elementor/thumbs/wdu-header-2-scaled-qzz41v3uq1iw5ezxx3694wk5veazbnw3q62nnmrcww.jpg",
-    "https://wahanadata.co.id/wp-content/uploads/elementor/thumbs/bkpm-scaled-r0gn5zclhzniq0rcdzfe7k85fdqhwh6ngb7cl7exi8.jpg",
-    "https://wahanadata.co.id/wp-content/uploads/2025/01/34695135-c70d-4d76-92d5-10c39eb5390f.jpg"
+    'https://wahanadata.co.id/wp-content/uploads/elementor/thumbs/wdu-header-2-scaled-qzz41v3uq1iw5ezxx3694wk5veazbnw3q62nnmrcww.jpg',
+    'https://wahanadata.co.id/wp-content/uploads/elementor/thumbs/bkpm-scaled-r0gn5zclhzniq0rcdzfe7k85fdqhwh6ngb7cl7exi8.jpg',
+    'https://wahanadata.co.id/wp-content/uploads/2025/01/34695135-c70d-4d76-92d5-10c39eb5390f.jpg',
   ],
-  ctaText: 'Mulai Kolaborasi',
-  ctaLink: 'https://wa.me/62881012394686?text=Halo%20Wahana%20Data%20Utama,%20saya%20tertarik%20untuk%20berkolaborasi%20mengenai%20layanan%20riset%20dan%20data.',
+  ctaText: 'Explore Solutions',
+  ctaLink: '#',
+  secondaryCtaText: 'View Research Lab',
+  secondaryCtaLink: '#'
 };
 
 export default function Hero() {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [heroData, setHeroData] = useState(defaultHero);
-  const heroRef = useRef<HTMLElement>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval>>();
 
   useEffect(() => {
     const stored = localStorage.getItem('wdu_admin_settings');
@@ -30,297 +29,164 @@ export default function Hero() {
       try {
         const parsed = JSON.parse(stored);
         if (parsed.heroes?.home) {
-          setHeroData({ ...defaultHero, ...parsed.heroes.home });
+          const h = parsed.heroes.home;
+          setHeroData({
+            ...defaultHero,
+            badgeText: h.badgeText || defaultHero.badgeText,
+            headline: Array.isArray(h.headline) ? h.headline.join(' ') : (h.headline || defaultHero.headline),
+            description: h.description || defaultHero.description,
+            carouselImages: h.carouselImages?.length ? h.carouselImages : defaultHero.carouselImages,
+            ctaText: h.ctaText || defaultHero.ctaText,
+            ctaLink: h.ctaLink || defaultHero.ctaLink
+          });
         }
       } catch (e) {
         console.error("Failed to parse hero settings", e);
       }
     }
   }, []);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
-  });
-  
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  const clearInterval_ = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = undefined;
+    }
+  };
+
+  const startInterval = () => {
+    clearInterval_();
+    intervalRef.current = setInterval(() => {
+      setCurrentSlide(prev => (prev + 1) % heroData.carouselImages.length);
+    }, 6000);
+  };
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % heroData.carouselImages.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [heroData.carouselImages.length]);
+    if (heroData.carouselImages.length <= 1 || isPaused) {
+      clearInterval_();
+      return;
+    }
+    startInterval();
+    return clearInterval_;
+  }, [heroData.carouselImages.length, isPaused]);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 40, filter: 'blur(10px)' },
-    visible: {
-      opacity: 1,
-      y: 0,
-      filter: 'blur(0px)',
-      transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] },
-    },
-  };
-
-  const titleWordVariants = {
-    hidden: { opacity: 0, y: 50, skewY: 5 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      skewY: 0,
-      transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] },
-    },
+  const handleDotClick = (index: number) => {
+    setCurrentSlide(index);
+    if (!isPaused) startInterval();
   };
 
   return (
-    <section ref={heroRef} className="relative h-screen min-h-[700px] flex items-center overflow-hidden bg-slate-900">
-      {/* Animated Background Particles */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-primary/20 rounded-full"
-            initial={{ 
-              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
-              y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1080),
-              scale: 0
-            }}
-            animate={{ 
-              y: -100,
-              opacity: [0, 1, 0],
-              scale: [0, 1, 0],
-            }}
-            transition={{
-              duration: 8 + Math.random() * 4,
-              repeat: Infinity,
-              delay: Math.random() * 5,
-              ease: 'linear',
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Background Carousel with Parallax */}
+    <section
+      className="relative min-h-[800px] lg:min-h-[921px] flex items-center overflow-hidden bg-[#123b1b]"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      {/* Background Carousel with Crossfade */}
       <div className="absolute inset-0 z-0">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
+        <AnimatePresence>
+          <motion.img
+            key={currentSlide}
             initial={{ opacity: 0, scale: 1.15 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="absolute inset-0"
-          >
-                <motion.img
-                  src={heroData.carouselImages[currentIndex]}
-              style={{ y: bgY }}
-              className="w-full h-full object-cover"
-              alt={`Hero Background ${currentIndex + 1}`}
-            />
-          </motion.div>
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover brightness-[0.35]"
+            src={heroData.carouselImages[currentSlide]}
+          />
         </AnimatePresence>
-        
-        {/* Enhanced Overlays */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5 }}
-          className="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-slate-900/50 to-slate-900"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/40 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent" />
-        
-        {/* Animated Gradient Overlay */}
-        <motion.div
-          animate={{
-            background: [
-              'radial-gradient(circle at 20% 50%, rgba(34, 197, 94, 0.1) 0%, transparent 50%)',
-              'radial-gradient(circle at 80% 50%, rgba(34, 197, 94, 0.15) 0%, transparent 50%)',
-              'radial-gradient(circle at 50% 80%, rgba(34, 197, 94, 0.1) 0%, transparent 50%)',
-              'radial-gradient(circle at 20% 50%, rgba(34, 197, 94, 0.1) 0%, transparent 50%)',
-            ],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-          className="absolute inset-0"
-        />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#123b1b]/80 via-[#123b1b]/40 to-transparent"></div>
       </div>
 
-      {/* Decorative Elements */}
-      <motion.div
-        initial={{ opacity: 0, x: -100 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.5, duration: 1 }}
-        className="absolute left-0 top-1/4 w-px h-64 bg-gradient-to-b from-transparent via-primary/30 to-transparent"
-      />
-      <motion.div
-        initial={{ opacity: 0, x: 100 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.6, duration: 1 }}
-        className="absolute right-0 top-1/3 w-px h-48 bg-gradient-to-b from-transparent via-primary/20 to-transparent"
-      />
-
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        style={{ y: textY, opacity }}
-        className="max-w-7xl mx-auto px-6 w-full relative z-10 pt-20 md:pt-24"
-      >
-        <div className="max-w-4xl space-y-12">
-          {/* Badge with animation */}
-          <motion.div 
-            variants={itemVariants}
-            className="inline-flex items-center gap-3 px-5 py-2.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full shadow-2xl"
-          >
-            <motion.span 
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="flex h-2.5 w-2.5 rounded-full bg-primary"
-            />
-              <span className="text-sm font-semibold text-white/90 tracking-wide">
-                {heroData.badgeText}
-              </span>
-          </motion.div>
-
-          {/* Animated Title */}
-          <div className="overflow-hidden">
-              <motion.h1 
-                variants={titleWordVariants}
-                className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tighter text-white"
-              >
-                {heroData.headline[0]}
-              </motion.h1>
-            </div>
-            <div className="overflow-hidden">
-              <motion.h1 
-                variants={titleWordVariants}
-                className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tighter"
-              >
-                <span className="text-primary italic">{heroData.headline[1]}</span>
-              </motion.h1>
-            </div>
-            <div className="overflow-hidden">
-              <motion.h1 
-                variants={titleWordVariants}
-                className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tighter text-white"
-              >
-                {heroData.headline[2]}
-              </motion.h1>
-            </div>
-
-          {/* Animated Description */}
-            <motion.p 
-              variants={itemVariants}
-              className="text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl font-light"
-            >
-              {heroData.description}
-            </motion.p>
-
-          {/* Stats with enhanced animations */}
-            <motion.div variants={itemVariants} className="flex flex-wrap gap-8 pt-4">
-              {heroData.stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 + index * 0.15, duration: 0.6 }}
-                className="group cursor-default"
-              >
-                <motion.div
-                  whileHover={{ scale: 1.15, y: -5 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="relative"
-                >
-                  <span className="text-4xl md:text-5xl font-black text-primary">{stat.value}</span>
-                  <motion.div
-                    className="absolute -bottom-1 left-0 h-1 bg-primary"
-                    initial={{ width: 0 }}
-                    animate={{ width: '100%' }}
-                    transition={{ delay: 1 + index * 0.2, duration: 0.5 }}
-                  />
-                </motion.div>
-                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mt-2">
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* CTA Button with enhanced animation */}
-          <motion.div variants={itemVariants} className="pt-6">
-            <motion.a
-              href={heroData.ctaLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.05, y: -3 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-3 px-10 py-5 bg-primary text-white font-black uppercase tracking-widest rounded-2xl shadow-2xl shadow-primary/40 relative overflow-hidden group"
-            >
-              {/* Shimmer Effect */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12"
-                animate={{ x: ['-100%', '200%'] }}
-                transition={{ duration: 2, repeat: Infinity, repeatDelay: 2 }}
-              />
-              <span className="relative z-10">{heroData.ctaText}</span>
-              <motion.span
-                animate={{ x: [0, 8, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="relative z-10 material-symbols-outlined"
-              >
-                arrow_forward
-              </motion.span>
-            </motion.a>
-          </motion.div>
-        </div>
-      </motion.div>
-
-      {/* Enhanced Slide Indicators */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.6 }}
-        className="absolute bottom-12 left-6 md:left-12 flex gap-3 z-20"
-      >
-        {heroData.carouselImages.map((_, i) => (
-          <motion.div
-            key={i}
-            onClick={() => setCurrentIndex(i)}
-            className={`h-1.5 cursor-pointer rounded-full bg-white/30 transition-all duration-500 ${
-              currentIndex === i ? 'w-12 bg-primary' : 'w-4 hover:w-6 hover:bg-white/50'
-            }`}
-            whileHover={{ scale: 1.2 }}
-          />
-        ))}
-      </motion.div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-8 right-8 flex flex-col items-center gap-2 z-20"
-      >
-        <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest">Scroll</span>
+      {/* Content Container */}
+      <div className="relative z-10 w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-12 gap-gutter py-24">
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="w-px h-8 bg-gradient-to-b from-white/50 to-transparent"
-        />
-      </motion.div>
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="lg:col-span-10 xl:col-span-8 flex flex-col justify-center"
+        >
+          {/* Precise Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#6ffb85]/10 border border-[#6ffb85]/30 rounded-full w-fit mb-10 backdrop-blur-sm">
+            <span className="material-symbols-outlined text-[18px] text-[#6ffb85]" style={{ fontVariationSettings: "'FILL' 1" }}>
+              shield
+            </span>
+            <span className="font-label-bold text-[12px] text-[#6ffb85] uppercase tracking-[0.2em] font-bold">
+              {heroData.badgeText}
+            </span>
+          </div>
+
+          {/* Bold Headline */}
+          <h1 className="font-headline-xl text-5xl md:text-7xl lg:text-8xl text-white mb-8 max-w-4xl font-extrabold leading-[1.1] tracking-tight">
+            {heroData.headline}
+          </h1>
+
+          {/* Refined Description */}
+          <p className="font-body-lg text-lg md:text-xl text-white/70 mb-12 max-w-2xl leading-relaxed">
+            {heroData.description}
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-wrap gap-4">
+            <button className="bg-[#6ffb85] text-[#002107] px-10 py-5 font-bold uppercase tracking-wider text-sm hover:bg-[#53e16f] transition-all flex items-center gap-3 shadow-xl shadow-[#6ffb85]/20 group">
+              {heroData.ctaText}
+              <span className="material-symbols-outlined text-xl transition-transform group-hover:translate-x-1">arrow_forward</span>
+            </button>
+            <button className="border border-white/30 text-white hover:bg-white/10 px-10 py-5 font-bold uppercase tracking-wider text-sm transition-all backdrop-blur-sm">
+              {heroData.secondaryCtaText}
+            </button>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Navigation Buttons */}
+      {heroData.carouselImages.length > 1 && (
+        <>
+          <motion.button
+            onClick={() => handleDotClick((currentSlide - 1 + heroData.carouselImages.length) % heroData.carouselImages.length)}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-14 md:h-14 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-primary hover:border-primary transition-all shadow-2xl"
+          >
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+          </motion.button>
+
+          <motion.button
+            onClick={() => handleDotClick((currentSlide + 1) % heroData.carouselImages.length)}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-14 md:h-14 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-primary hover:border-primary transition-all shadow-2xl"
+          >
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+          </motion.button>
+        </>
+      )}
+
+      {/* Dot Indicators */}
+      {heroData.carouselImages.length > 1 && (
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3">
+          {heroData.carouselImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handleDotClick(index)}
+              className={`rounded-full transition-all duration-300 ${
+                index === currentSlide
+                ? 'bg-[#6ffb85] w-3 h-3 shadow-lg shadow-[#6ffb85]/30'
+                : 'bg-white/30 w-2.5 h-2.5 hover:bg-white/50'
+              }`}
+              aria-label={`Slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Decorative Light Streak */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#6ffb85]/5 to-transparent pointer-events-none"></div>
     </section>
   );
 }
-

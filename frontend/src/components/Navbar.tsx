@@ -1,8 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
-import api from '../services/api';
-import { usePages } from '../context/PageContext';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,9 +33,6 @@ export default function Navbar() {
     y.set(0);
   };
 
-  const { pages } = usePages();
-  const draftSlugs = pages.filter(p => !p.isPublished).map(p => p.slug);
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -63,7 +58,7 @@ export default function Navbar() {
         }`}
     >
       <div className="w-full px-4 md:px-8 flex items-center justify-between">
-        {/* Logo Section - bigger and more to the left */}
+        {/* Logo Section */}
         <Link to="/" className="flex items-center gap-2 group flex-shrink-0">
           <div className="h-14 md:h-16 w-auto overflow-hidden">
             <img
@@ -74,7 +69,7 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Desktop Navigation - shifted more to the right */}
+        {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8 mr-6">
           {navLinks.map((link) => (
             <Link
@@ -96,7 +91,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Action Button: Premium Magnetic Shimmer */}
+        {/* Action Button */}
         <div className="hidden md:block">
           <motion.div
             ref={buttonRef}
@@ -108,16 +103,12 @@ export default function Navbar() {
               to="/sis-wdu"
               className="relative px-6 py-2.5 bg-slate-900 text-white text-xs font-black uppercase tracking-widest rounded-xl overflow-hidden group flex items-center gap-3 shadow-xl hover:shadow-primary/20 transition-all duration-500"
             >
-              {/* Shimmer Effect */}
               <motion.div
                 animate={{ x: ['-100%', '200%'] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "linear", repeatDelay: 3 }}
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 z-10"
               />
-
               <span className="relative z-20">Download Company Profile</span>
-
-              {/* Animated Download Icon */}
               <motion.span
                 animate={{ y: [0, 3, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
@@ -125,14 +116,12 @@ export default function Navbar() {
               >
                 download
               </motion.span>
-
-              {/* Hover Background Glow */}
               <div className="absolute inset-0 bg-primary opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
             </Link>
           </motion.div>
         </div>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Toggle */}
         <button className="md:hidden text-slate-700 focus:outline-none">
           <span className="material-symbols-outlined text-3xl">menu</span>
         </button>

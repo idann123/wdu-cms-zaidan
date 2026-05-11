@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { flushSync } from 'react-dom';
 import { Outlet, Navigate, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { useAuthStore } from '../store/authStore';
 import api from '../services/api';
 
@@ -102,21 +102,20 @@ export default function AdminLayout() {
   };
 
   const navItemBase =
-    'px-4 py-2 flex items-center gap-3 font-headline font-semibold tracking-tight transition-all rounded-lg text-on-surface-variant hover:bg-surface-container-low';
+    'px-4 py-2.5 flex items-center gap-3 font-semibold tracking-tight transition-all rounded-xl text-slate-600 hover:bg-slate-100/50 hover:text-slate-900';
   const navItemActive =
-    'bg-primary/10 text-primary rounded-full px-4 py-2 transition-all flex items-center gap-3 font-headline font-semibold tracking-tight scale-95 duration-150 ease-in-out';
-
-  const initials = user?.name
-    ? user.name
-      .split(' ')
-      .map((n) => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2)
-    : 'A';
+    'bg-mint text-mint-strong rounded-xl px-4 py-2.5 transition-all flex items-center gap-3 font-bold tracking-tight shadow-sm border border-mint-strong/10';
 
   return (
-    <div className="text-on-surface bg-background min-h-screen">
+    <div className="text-on-surface bg-background min-h-screen relative overflow-hidden">
+      {/* Premium Background Glows */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-[10%] right-[-5%] w-[35%] h-[35%] bg-secondary/10 rounded-full blur-[100px] animate-pulse"></div>
+        <div className="absolute top-[40%] left-[20%] w-[25%] h-[25%] bg-primary/5 rounded-full blur-[80px]"></div>
+      </div>
+
+      <div className="relative z-10">
       {/* Logout Confirmation Modal */}
       {showLogoutConfirm && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm">
@@ -154,7 +153,7 @@ export default function AdminLayout() {
       )}
 
       {/* SideNavBar */}
-      <aside className="h-screen w-64 fixed left-0 top-0 flex flex-col py-6 px-4 bg-background/90 backdrop-blur-md z-50 transition-all duration-300">
+      <aside className="h-screen w-64 fixed left-0 top-0 flex flex-col py-8 px-5 glass-sidebar z-50 transition-all duration-300">
         <div className="mb-10 px-4">
           <h1 className="text-xl font-black text-on-surface dark:text-white font-headline tracking-tight">WDU Admin</h1>
           <p className="text-xs font-headline text-on-surface-variant font-semibold">Wahana Data Utama</p>
@@ -245,11 +244,10 @@ export default function AdminLayout() {
         </nav>
 
         {/* User & Logout */}
-        <div className="mt-auto px-4 space-y-3">
-          {/* User Profile - Hidden */}
+        <div className="mt-auto px-2 space-y-3">
           <button
             onClick={handleLogoutClick}
-            className="w-full flex items-center gap-3 px-4 py-2 rounded-lg bg-error/10 text-error hover:bg-error/20 transition-colors font-semibold font-headline text-sm"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl bg-rose-50 text-rose-600 hover:bg-rose-100 transition-all font-bold text-sm border border-rose-200/50"
           >
             <span className="material-symbols-outlined text-base">logout</span>
             Logout
@@ -258,13 +256,13 @@ export default function AdminLayout() {
       </aside>
 
       {/* TopAppBar */}
-      <header className="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-background/80 dark:bg-surface/80 backdrop-blur-md h-16 flex justify-between items-center px-8 transition-colors duration-200">
+      <header className="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-white/70 backdrop-blur-xl h-20 flex justify-between items-center px-10 border-b border-slate-100 transition-colors duration-200">
         <div className="flex items-center gap-4 flex-1">
           <div className="relative w-full max-w-md group">
             <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
             <input
-              className="w-full bg-surface-container-lowest border-0 border-b-2 border-outline-variant focus:border-primary focus:ring-0 text-sm font-body py-2 pl-10 pr-4 transition-all"
-              placeholder="Search..."
+              className="w-full bg-slate-50 border border-slate-200 focus:border-mint-strong focus:ring-4 focus:ring-mint/30 text-sm py-2.5 pl-10 pr-4 transition-all rounded-2xl"
+              placeholder="Search data, projects, or settings..."
               type="text"
             />
           </div>
@@ -336,10 +334,10 @@ export default function AdminLayout() {
             </button>
           </div>
           <div className="h-8 w-[1px] bg-outline-variant/30"></div>
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-headline text-primary font-bold">Admin Panel</span>
-            <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center">
-              <span className="material-symbols-outlined text-on-primary-fixed text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
+          <div className="flex items-center gap-3 bg-mint/30 px-4 py-2 rounded-2xl border border-mint-strong/10">
+            <span className="text-xs font-bold text-mint-strong uppercase tracking-wider">Admin Panel</span>
+            <div className="w-8 h-8 rounded-xl bg-mint-strong flex items-center justify-center shadow-lg shadow-mint-strong/20">
+              <span className="material-symbols-outlined text-white text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
                 admin_panel_settings
               </span>
             </div>
@@ -429,6 +427,7 @@ export default function AdminLayout() {
             <Outlet />
           </AnimatePresence>
         </div>
+      </div>
       </div>
     </div>
   );
